@@ -10,7 +10,7 @@ on:
       - java/**
 jobs:
   push:
-    name: "yolks:java_${{ matrix.tag }}"
+    name: "alpine_java:java_${{ matrix.tag }}"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
