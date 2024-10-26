@@ -1,4 +1,4 @@
-FROM        --platform=$TARGETOS/$TARGETARCH eclipse-temurin:21-jdk-alpine
+FROM        --platform=$TARGETOS/$TARGETARCH alpine:latest
 
 LABEL       author="FireIP"
 
