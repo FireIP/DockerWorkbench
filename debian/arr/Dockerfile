@@ -1,25 +1,39 @@
-FROM        --platform=$TARGETOS/$TARGETARCH alpine:latest
+FROM        --platform=$TARGETOS/$TARGETARCH debian:stable-slim
 
 LABEL       author="FireIP"
 
-RUN apk -U upgrade
-RUN apk add --no-cache --update curl lsof ca-certificates openssl git tar bash sqlite fontconfig tzdata iproute2 tini zip unzip
-RUN apk add --no-cache --update meson gcc linux-headers libc-dev zlib-dev
-
-RUN git clone https://github.com/skullernet/q2pro.git
-RUN cd q2pro && meson setup builddir && meson configure builddir -D anticheat-server=true && meson configure builddir && meson compile -C builddir && ninja -C builddir install
-
-RUN apk add iptables
+RUN apt update
+RUN apt upgrade -y && apt install -y \
+    sudo \
+    curl \
+    gnupg \
+    apt-transport-https \
+    ca-certificates \
+    lsb-release \
+    systemctl \
+    libicu-dev
 
 ## Setup user and working directory
-RUN         adduser --disabled-password -h /home/container -s /bin/bash container
-USER        root
+RUN         useradd -m -s /bin/bash container
+USER        container
 ENV         USER=container HOME=/home/container
 WORKDIR     /home/container
+
+USER        root
+
+RUN curl -o install-sonarr.sh https://raw.githubusercontent.com/Sonarr/Sonarr/v5-develop/distribution/debian/install.sh
+RUN chmod +x install-sonarr.sh
+RUN ./install-sonarr.sh -u --user container --group container
+RUN rm install-sonarr.sh
+RUN rm Sonarr*
+
+##USER       container
+
+EXPOSE      8989
 
 STOPSIGNAL SIGINT
 
 COPY        --chown=container:container ./../entrypoint.sh /entrypoint.sh
 RUN         chmod +x /entrypoint.sh
 
-CMD ["/bin/bash", "iptables -L -n"]
+CMD ["/bin/bash"]
