@@ -6,6 +6,7 @@ RUN apt update
 RUN apt upgrade -y && apt install -y \
     sudo \
     curl \
+    wget \
     gnupg \
     apt-transport-https \
     ca-certificates \
@@ -21,15 +22,18 @@ WORKDIR     /home/container
 
 USER        root
 
-RUN curl -o install-sonarr.sh https://raw.githubusercontent.com/Sonarr/Sonarr/v5-develop/distribution/debian/install.sh
-RUN chmod +x install-sonarr.sh
-RUN ./install-sonarr.sh -u --user container --group container
-RUN rm install-sonarr.sh
-RUN rm Sonarr*
+RUN curl -o servarr-install-script.sh https://raw.githubusercontent.com/Servarr/Wiki/master/servarr/servarr-install-script.sh
+RUN chmod +x servarr-install-script.sh
+
+COPY        --chown=root:root ./unattended-servarr.sh /home/container/unattended-servarr.sh
+
+## RUN ./servarr-install-script.sh
+## RUN rm install-sonarr.sh
+## RUN rm Sonarr*
 
 ##USER       container
 
-EXPOSE      8989
+EXPOSE      8686 9696 7878 8787
 
 STOPSIGNAL SIGINT
 
