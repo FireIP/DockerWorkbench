@@ -26,18 +26,30 @@ RUN curl -o servarr-install-script.sh https://raw.githubusercontent.com/Servarr/
 RUN chmod +x servarr-install-script.sh
 
 COPY        --chown=root:root ./unattended-servarr.sh /home/container/unattended-servarr.sh
+RUN         chmod +x /home/container/unattended-servarr.sh
+RUN         ./unattended-servarr.sh -l -p -r -d
+RUN         rm ./unattended-servarr.sh
 
-## RUN ./servarr-install-script.sh
-## RUN rm install-sonarr.sh
-## RUN rm Sonarr*
+RUN curl -o install-sonarr.sh https://raw.githubusercontent.com/Sonarr/Sonarr/v5-develop/distribution/debian/install.sh
+RUN chmod +x install-sonarr.sh
+RUN ./install-sonarr.sh -u --user container --group container
+RUN rm install-sonarr.sh
+RUN rm *tar.gz
+
+RUN apt autoremove -y && \
+    apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 ##USER       container
 
-EXPOSE      8686 9696 7878 8787
+EXPOSE      8686 9696 7878 8787 8989
 
 STOPSIGNAL SIGINT
 
 COPY        --chown=container:container ./../entrypoint.sh /entrypoint.sh
 RUN         chmod +x /entrypoint.sh
 
-CMD ["/bin/bash"]
+COPY        --chown=root:root ./start.sh /start.sh
+RUN         chmod +x /start.sh
+
+CMD ["/bin/bash", "/start.sh"]

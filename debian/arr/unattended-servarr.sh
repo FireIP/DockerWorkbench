@@ -134,7 +134,7 @@ echo ""
 echo "Select the application to install: "
 echo ""
 
-for app in lidarr prowlarr radarr readarr whisparr whisparr-v3; do
+for app in lidarr prowlarr radarr readarr whisparr whisparr_v3; do
     varname="arg_${app}"
     if [[ ${!varname} == true ]]; then
         echo "   - $app"
@@ -170,7 +170,7 @@ for app in lidarr prowlarr radarr readarr whisparr whisparr-v3; do
                 app_umask="0002"          # UMask the Service will run as
                 branch="nightly"          # {Update me if needed} branch to install
                 ;;
-            whisparr-v3)
+            whisparr_v3)
                 app=whisparr
                 app_port="6969"           # Default App Port; Modify config.xml after install if needed
                 app_prereq="curl sqlite3" # Required packages
@@ -211,14 +211,11 @@ for app in lidarr prowlarr radarr readarr whisparr whisparr-v3; do
 
         # Prompt User
         echo ""
-        read -r -p "What user should [${app^}] run as? (Default: $app): " app_uid
-        app_uid=$(echo "$app_uid" | tr -d ' ')
-        app_uid=${app_uid:-$app}
-        # Prompt Group
-        echo ""
-        read -r -p "What group should [${app^}] run as? (Default: media): " app_guid
-        app_guid=$(echo "$app_guid" | tr -d ' ')
-        app_guid=${app_guid:-media}
+        # Set user (default: $app)
+        app_uid="$app"
+
+        # Set group (default: media)
+        app_guid="media"
 
         echo ""
         echo -e "${brown}[${app^}]${reset} selected for installation."
@@ -234,15 +231,6 @@ for app in lidarr prowlarr radarr readarr whisparr whisparr-v3; do
             echo -e "   By continuing, you've ${red}CONFIRMED${reset} that that ${brown}[$app_uid]${reset} and ${brown}[$app_guid]${reset}"
             echo -e "   will have both ${red}READ${reset} and ${red}WRITE${reset} access to all required directories."
             echo ""
-        fi
-
-        # User confirmation that installation will continue
-        echo ""
-        read -r -p "Please type 'yes' to continue with the installation: " response
-        if [[ $response != "yes" && $response != "YES" ]]; then
-            echo "Invalid response. Operation is canceled!"
-            echo "Exiting script!"
-            exit 0
         fi
 
         # Create User / Group as needed
@@ -303,7 +291,7 @@ for app in lidarr prowlarr radarr readarr whisparr whisparr-v3; do
             echo ""
             echo -e "Installing missing prerequisite packages: ${brown}${missing_packages[*]}${reset}"
             # Install missing prerequisite packages
-            apt update && apt install "${missing_packages[@]}"
+            apt update && apt install -y "${missing_packages[@]}"
         fi
 
         # check if architecture is correct
