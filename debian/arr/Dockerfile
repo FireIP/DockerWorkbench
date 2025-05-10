@@ -40,7 +40,7 @@ RUN apt autoremove -y && \
     apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-RUN chown -R 999:999 /opt/Lidarr /opt/Prowlarr /opt/Radarr /opt/Readarr /opt/Sonarr /var/lib/lidarr /var/lib/prowlarr /var/lib/radarr /var/lib/readarr /var/lib/sonarr
+## RUN chown -R 999:999 /opt/Lidarr /opt/Prowlarr /opt/Radarr /opt/Readarr /opt/Sonarr /var/lib/lidarr /var/lib/prowlarr /var/lib/radarr /var/lib/readarr /var/lib/sonarr
 
 USER       container
 

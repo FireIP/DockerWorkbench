@@ -212,7 +212,7 @@ for app in lidarr prowlarr radarr readarr whisparr whisparr_v3; do
         # Prompt User
         echo ""
         # Set user (default: $app)
-        app_uid="$app"
+        app_uid="container"
 
         # Set group (default: media)
         app_guid="media"
