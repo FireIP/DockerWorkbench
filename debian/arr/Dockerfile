@@ -22,19 +22,23 @@ WORKDIR     /home/container
 
 USER        root
 
-RUN curl -o servarr-install-script.sh https://raw.githubusercontent.com/Servarr/Wiki/master/servarr/servarr-install-script.sh
-RUN chmod +x servarr-install-script.sh
+RUN mkdir opt
+RUN chown container:container opt
+RUN mkdir -p var/lib
+RUN chown -R container:container var
 
-COPY        --chown=root:root ./unattended-servarr.sh /home/container/unattended-servarr.sh
-RUN         chmod +x /home/container/unattended-servarr.sh
-RUN         ./unattended-servarr.sh -l -p -r -d
-RUN         rm ./unattended-servarr.sh
+COPY        --chown=root:root ./unattended-servarr.sh /home/container/script/unattended-servarr.sh
+RUN         chmod +x /home/container/script/unattended-servarr.sh
+RUN         ./script/unattended-servarr.sh -l -p -r -d
+RUN         rm ./script/unattended-servarr.sh
 
 RUN curl -o install-sonarr.sh https://raw.githubusercontent.com/Sonarr/Sonarr/v5-develop/distribution/debian/install.sh
 RUN chmod +x install-sonarr.sh
 RUN ./install-sonarr.sh -u --user container --group container
 RUN rm install-sonarr.sh
 RUN rm *tar.gz
+RUN mv /opt/Sonarr opt/Sonarr
+RUN mv /var/lib/sonarr/ var/lib/sonarr/
 
 RUN apt autoremove -y && \
     apt-get clean \

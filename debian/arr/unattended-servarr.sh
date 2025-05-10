@@ -186,9 +186,9 @@ for app in lidarr prowlarr radarr readarr whisparr whisparr_v3; do
 
         ### CONSTANTS
         ### Update these variables as required for your specific instance
-        installdir="/opt"              # {Update me if needed} Install Location
+        installdir="/home/container/opt"              # {Update me if needed} Install Location
         bindir="${installdir}/${app^}" # Full Path to Install Location
-        datadir="/var/lib/$app/"       # {Update me if needed} AppData directory to use
+        datadir="/home/container/var/lib/$app/"       # {Update me if needed} AppData directory to use
         app_bin=${app^}                # Binary Name of the app
 
         if [[ $app != 'prowlarr' ]]; then
