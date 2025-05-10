@@ -9,4 +9,4 @@ wait
 
 echo "Arr!"
 
-su -c 'bash' container
+## su -c 'bash' container
