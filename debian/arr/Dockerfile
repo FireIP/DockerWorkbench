@@ -15,7 +15,7 @@ RUN apt upgrade -y && apt install -y \
     libicu-dev
 
 ## Setup user and working directory
-RUN         useradd -m -s /bin/bash container
+RUN         useradd -u 999 -m -s /bin/bash container
 USER        container
 ENV         USER=container HOME=/home/container
 WORKDIR     /home/container
@@ -40,7 +40,9 @@ RUN apt autoremove -y && \
     apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-##USER       container
+RUN chown -R 999:999 /opt/Lidarr /opt/Prowlarr /opt/Radarr /opt/Readarr /opt/Sonarr /var/lib/lidarr /var/lib/prowlarr /var/lib/radarr /var/lib/readarr /var/lib/sonarr
+
+USER       container
 
 EXPOSE      8686 9696 7878 8787 8989
 
@@ -49,7 +51,7 @@ STOPSIGNAL SIGINT
 COPY        --chown=container:container ./../entrypoint.sh /entrypoint.sh
 RUN         chmod +x /entrypoint.sh
 
-COPY        --chown=root:root ./start.sh /start.sh
+COPY        --chown=container:container ./start.sh /start.sh
 RUN         chmod +x /start.sh
 
-CMD ["/bin/bash", "/start.sh"]
+CMD ["/bin/bash", "/entrypoint.sh"]
