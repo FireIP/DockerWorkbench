@@ -22,27 +22,7 @@ WORKDIR     /home/container
 
 USER        root
 
-RUN mkdir opt
-RUN chown container:container opt
-RUN mkdir -p var/lib
-RUN chown -R container:container var
-
 COPY        --chown=root:root ./unattended-servarr.sh /home/container/script/unattended-servarr.sh
-RUN         chmod +x /home/container/script/unattended-servarr.sh
-RUN         ./script/unattended-servarr.sh -l -p -r -d
-RUN         rm ./script/unattended-servarr.sh
-
-RUN curl -o install-sonarr.sh https://raw.githubusercontent.com/Sonarr/Sonarr/v5-develop/distribution/debian/install.sh
-RUN chmod +x install-sonarr.sh
-RUN ./install-sonarr.sh -u --user container --group container
-RUN rm install-sonarr.sh
-RUN rm *tar.gz
-RUN mv /opt/Sonarr opt/Sonarr
-RUN mv /var/lib/sonarr/ var/lib/sonarr/
-
-RUN apt autoremove -y && \
-    apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 ## RUN chown -R 999:999 /opt/Lidarr /opt/Prowlarr /opt/Radarr /opt/Readarr /opt/Sonarr /var/lib/lidarr /var/lib/prowlarr /var/lib/radarr /var/lib/readarr /var/lib/sonarr
 
