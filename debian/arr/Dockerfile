@@ -13,6 +13,10 @@ RUN apt upgrade -y && apt install -y \
     lsb-release \
     systemctl \
     libicu-dev
+    
+RUN apt autoremove -y && \
+    apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 ## Setup user and working directory
 RUN         useradd -u 999 -m -s /bin/bash container
