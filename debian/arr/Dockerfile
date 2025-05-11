@@ -14,7 +14,8 @@ RUN apt upgrade -y && apt install -y \
     systemctl \
     libicu-dev \
     tor \
-    proxychains
+    proxychains \
+    qbittorrent-nox
 
 RUN echo "strict_chain\nproxy_dns\n[ProxyList]\nsocks5 127.0.0.1 9050" > /etc/proxychains.conf
     
@@ -36,7 +37,7 @@ COPY        --chown=root:root ./unattended-servarr.sh /home/container/script/una
 
 ## USER       container
 
-EXPOSE      8686 9696 7878 8787 8989
+EXPOSE      8686 9696 7878 8787 8989 9898
 
 STOPSIGNAL SIGINT
 
