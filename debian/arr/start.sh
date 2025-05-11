@@ -6,3 +6,6 @@
 /home/container/opt/Sonarr/Sonarr -nobrowser -data=/home/container/var/lib/sonarr &
 
 echo "Arr!"
+
+# Keep container alive
+tail -f /dev/null
