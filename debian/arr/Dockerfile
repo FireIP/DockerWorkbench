@@ -28,10 +28,6 @@ USER        container
 ENV         USER=container HOME=/home/container
 WORKDIR     /home/container
 
-ENV HTTP_PROXY=socks5h://127.0.0.1:9050
-ENV HTTPS_PROXY=socks5h://127.0.0.1:9050
-ENV ALL_PROXY=socks5h://127.0.0.1:9050
-
 USER        root
 
 COPY        --chown=root:root ./unattended-servarr.sh /home/container/script/unattended-servarr.sh
