@@ -7,6 +7,8 @@ tor &
 /home/container/opt/Sonarr/Sonarr -nobrowser -data=/home/container/var/lib/sonarr &
 
 echo "Arr!"
+qbittorrent-nox -d --webui-port=9898
+echo "Download!"
 
 # Keep container alive
 tail -f /dev/null
