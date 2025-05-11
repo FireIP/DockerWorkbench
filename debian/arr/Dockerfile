@@ -30,7 +30,7 @@ COPY        --chown=root:root ./unattended-servarr.sh /home/container/script/una
 
 ## RUN chown -R 999:999 /opt/Lidarr /opt/Prowlarr /opt/Radarr /opt/Readarr /opt/Sonarr /var/lib/lidarr /var/lib/prowlarr /var/lib/radarr /var/lib/readarr /var/lib/sonarr
 
-USER       container
+## USER       container
 
 EXPOSE      8686 9696 7878 8787 8989
 
