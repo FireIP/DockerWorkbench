@@ -12,7 +12,11 @@ RUN apt upgrade -y && apt install -y \
     ca-certificates \
     lsb-release \
     systemctl \
-    libicu-dev
+    libicu-dev \
+    tor \
+    proxychains
+
+RUN echo "strict_chain\nproxy_dns\n[ProxyList]\nsocks5 127.0.0.1 9050" > /etc/proxychains.conf
     
 RUN apt autoremove -y && \
     apt-get clean \
@@ -23,6 +27,10 @@ RUN         useradd -u 999 -m -s /bin/bash container
 USER        container
 ENV         USER=container HOME=/home/container
 WORKDIR     /home/container
+
+ENV HTTP_PROXY=socks5h://127.0.0.1:9050
+ENV HTTPS_PROXY=socks5h://127.0.0.1:9050
+ENV ALL_PROXY=socks5h://127.0.0.1:9050
 
 USER        root
 

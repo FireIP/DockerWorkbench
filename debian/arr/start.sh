@@ -1,4 +1,5 @@
 #!/bin/bash
+tor &
 /home/container/opt/Lidarr/Lidarr -nobrowser -data=/home/container/var/lib/lidarr &
 /home/container/opt/Prowlarr/Prowlarr -nobrowser -data=/home/container/var/lib/prowlarr &
 /home/container/opt/Radarr/Radarr -nobrowser -data=/home/container/var/lib/radarr &
