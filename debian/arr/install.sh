@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "Starting install..."
 cd /home/container
 mkdir opt
 chown container:container opt
@@ -16,6 +17,10 @@ rm install-sonarr.sh
 rm *tar.gz
 mv /opt/Sonarr opt/Sonarr
 mv /var/lib/sonarr/ var/lib/sonarr/
+
+mkdir -p /mnt/server
+mv opt /mnt/server/opt
+mv var /mnt/server/var
 
 apt autoremove -y && \
 apt-get clean \
