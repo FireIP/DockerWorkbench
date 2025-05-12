@@ -22,4 +22,7 @@ EXPOSE 5055
 COPY        --chown=container:container ./../entrypoint.sh /entrypoint.sh
 RUN         chmod +x /entrypoint.sh
 
+COPY        --chown=container:container ./start.sh /start.sh
+RUN         chmod +x /start.sh
+
 CMD ["/bin/bash", "/entrypoint.sh"]
