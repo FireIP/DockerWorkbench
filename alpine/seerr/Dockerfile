@@ -15,6 +15,8 @@ USER        container
 ENV         USER=container HOME=/home/container
 WORKDIR     /home/container
 
+USER        root
+
 STOPSIGNAL SIGINT
 
 EXPOSE 5055
