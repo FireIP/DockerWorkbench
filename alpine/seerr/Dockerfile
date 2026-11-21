@@ -5,7 +5,7 @@ LABEL       author="FireIP"
 RUN apk -U upgrade
 RUN apk add --no-cache --update curl lsof ca-certificates openssl git tar bash sqlite fontconfig tzdata iproute2 tini zip unzip
 
-RUN npm install -g pnpm@latest-9
+RUN npm install -g pnpm@latest-10
 
 RUN mkdir -p /opt/jellyseerr && cd /opt/jellyseerr
 
